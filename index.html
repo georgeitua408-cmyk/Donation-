@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Collection Page - BIG</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f7f9fc; color: #333; margin: 0; padding: 0; }
+        #splash { position: fixed; top:0; left:0; width:100%; height:100%; background:#008751; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:9999; color:white; text-align:center; }
+        #splash h1 { font-size:70px; margin:30px 0; }
+        .flag { display:flex; width:320px; height:200px; border-radius:12px; overflow:hidden; }
+        .flag-green { background:#008751; flex:1; border:2px solid white; }
+        .flag-white { background:white; flex:1; }
+        #mainContent { display:none; width:100%; }
+        .hero { text-align:center; background:#fff; padding:60px 20px; width:100%; box-sizing:border-box; }
+        .hero h1 { font-size:55px; }
+        .hero p { font-size:28px; }
+        .progress-bar { background:lightgray; border-radius:25px; height:40px; margin:20px auto; width:95%; }
+        .progress { background:#4caf50; height:100%; border-radius:50px; width:25%; }
+        .donation-form { margin:0 auto; background:#fff; padding:60px; width:100%; min-height:100vh; box-sizing:border-box; }
+        .donation-form h2 { font-size:45px; }
+        .donation-form input, .donation-form select { width:100%; padding:28px; margin:18px 0; border-radius:15px; border:3px solid #ccc; font-size:26px; box-sizing:border-box; }
+        .amount-buttons { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:25px 0; }
+        .amount-buttons button { padding:28px; border-radius:15px; border:3px solid #4caf50; background:white; cursor:pointer; font-size:24px; font-weight:bold; }
+        .page { display:none; margin:0 auto; background:#fff; padding:70px; width:100%; min-height:100vh; box-sizing:border-box; }
+        .page h2 { font-size:45px; }
+        .page p, .page input { font-size:26px; }
+        .active { display:block; }
+        button.main { background:#4caf50; color:white; border:none; padding:30px; width:100%; font-size:32px; font-weight:bold; border-radius:18px; margin-top:25px; cursor:pointer; }
+    </style>
+</head>
+<body>
+
+<div id="splash">
+    <div class="flag"><div class="flag-green"></div><div class="flag-white"></div><div class="flag-green"></div></div>
+    <h1>PROUDLY NIGERIA</h1>
+    <p style="font-size:35px;">🇳🇬 Loading...</p>
+</div>
+
+<div id="mainContent">
+    <div id="page1" class="donation-form active">
+        <div class="hero">
+            <h1>Support Our Cause!</h1>
+            <p>Help us reach our goal of <strong>₦500,000</strong></p>
+            <div class="progress-bar"><div class="progress"></div></div>
+            <p>₦125,000 raised</p>
+        </div>
+        <h2>Make a Donation</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="tel" id="phone" placeholder="Phone">
+        <div class="amount-buttons">
+            <button type="button" onclick="setAmount(1000)">₦1,000</button>
+            <button type="button" onclick="setAmount(2000)">₦2,000</button>
+            <button type="button" onclick="setAmount(5000)">₦5,000</button>
+            <button type="button" onclick="setAmount(10000)">₦10,000</button>
+            <button type="button" onclick="setAmount(20000)">₦20,000</button>
+            <button type="button" onclick="setAmount(50000)">₦50,000</button>
+        </div>
+        <input type="number" id="customAmount" placeholder="Custom Amount">
+        <select id="payMethod">
+            <option value="">-- Select Payment Method --</option>
+            <option value="opay">OPay</option>
+            <option value="palmpay">PalmPay</option>
+            <option value="moniepoint">Moniepoint</option>
+            <option value="kuda">KUDA</option>
+        </select>
+        <button class="main" onclick="goToPayment()">DONATE NOW</button>
+        <div style="margin-top:40px; background:#f9f9f9; padding:30px; border-left:10px solid #4caf50;">
+            <p style="font-size:28px;">Account Name: <b>UKPEBOR GEORGE</b></p>
+            <p style="font-size:28px;">Account Number: <b>7070323972</b></p>
+            <p style="font-size:28px;">Bank: <b>MOMO</b></p>
+        </div>
+    </div>
+    <div id="page2" class="page">
+        <h2>Create Account to Donate</h2>
+        <p id="methodText"></p>
+        <input type="text" placeholder="Full Name"><input type="email" placeholder="Email"><input type="password" placeholder="Password">
+        <button class="main" onclick="showPage('page3')">Create Account & Continue</button>
+        <button onclick="showPage('page1')" style="padding:25px; width:100%; font-size:24px; margin-top:15px;">Back</button>
+    </div>
+    <div id="page3" class="page">
+        <h2>Donate via <span id="bankName"></span></h2>
+        <p style="font-size:30px;">Amount: ₦<span id="showAmount"></span></p>
+        <div style="background:#e8f5e9; padding:40px; border-radius:15px; border:4px dashed #4caf50;">
+            <p style="font-size:28px;"><b>Account Name:</b> UKPEBOR GEORGE</p>
+            <p style="font-size:28px;"><b>Account Number:</b> 7070323972</p>
+            <p style="font-size:28px;"><b>Bank:</b> <span id="bankName2"></span></p>
+        </div>
+        <button class="main" onclick="showPage('page4')">I HAVE PAID</button>
+        <button class="main" style="background:#2196F3" onclick="openOfficial()">Open <span id="bankName3"></span> Official Site</button>
+    </div>
+    <div id="page4" class="page">
+        <h2 style="color:green; font-size:55px;">Thank You!</h2>
+        <p style="font-size:30px;">Donation of ₦<span id="finalAmount"></span> via <span id="finalMethod"></span> confirmed.</p>
+        <button class="main" onclick="showPage('page1')">Donate Again</button>
+    </div>
+</div>
+
+<script>
+    setTimeout(function(){ document.getElementById('splash').style.display='none'; document.getElementById('mainContent').style.display='block'; }, 3000);
+    function setAmount(a){ document.getElementById('customAmount').value=a; }
+    function showPage(id){ document.querySelectorAll('.page, .donation-form').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+    function goToPayment(){
+        let m=document.getElementById('payMethod').value, a=document.getElementById('customAmount').value;
+        if(!m||!a){ alert("Select method and amount"); return; }
+        document.getElementById('methodText').innerText="You selected "+m.toUpperCase();
+        document.getElementById('bankName').innerText=m.toUpperCase();
+        document.getElementById('bankName2').innerText=m.toUpperCase();
+        document.getElementById('bankName3').innerText=m.toUpperCase();
+        document.getElementById('showAmount').innerText=a;
+        document.getElementById('finalAmount').innerText=a;
+        document.getElementById('finalMethod').innerText=m.toUpperCase();
+        showPage('page2');
+    }
+    function openOfficial(){
+        let m=document.getElementById('payMethod').value;
+        if(m==='opay') window.open("https://www.opayweb.com","_blank");
+        if(m==='palmpay') window.open("https://www.palmpay.com","_blank");
+        if(m==='moniepoint') window.open("https://moniepoint.com","_blank");
+        if(m==='kuda') window.open("https://www.kuda.com","_blank");
+    }
+</script>
+</body>
+</html>
